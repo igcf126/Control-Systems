@@ -1,0 +1,34 @@
+clear
+clc
+
+sys = tf(10000, [1 110 10000]);
+
+% bode(sys, 'k-.')
+[Mag, Phase, Wout] = bode(sys, 'k-.');
+Mag = Mag(:);
+LogMag = 20*log10(Mag/1); % en dB
+Phase = Phase(:);
+
+LTBode = readtable("Bode1.xlsx");
+
+
+freqRad = LTBode.FreqRad;
+Magnitud = LTBode.Magnitud;
+Fase = LTBode.Fase;
+
+% semilogx(Wout, LogMag, 'k-.')
+subplot(2,1,1),semilogx(Wout, LogMag, 'k'),title('uno')
+
+hold on
+grid on
+
+% subplot(2,1,1).plot(freq, Magnitud(:,1), 'y-.').title('uno')
+subplot(2,1,1),semilogx(freqRad, Magnitud, 'y-.'),title('uno')
+
+% plot(freqRad, Fase, 'y-.')
+subplot(2,1,2),semilogx(freqRad, Magnitud, 'y-.'),title('uno')
+
+title('Diagrama de magnitud de Bode.')
+xlabel('Frecuencia (rad/s)')
+ylabel('Magnitud (dB)')
+legend('Función de transferencia.','Experimento')
